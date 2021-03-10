@@ -88,7 +88,6 @@ void Tracking::RGBDThread()
 
 void Tracking::RGBDProcessing()
 {
-    const bool readyOdometry = true; // TODO: (change this to be a memeber in class)
     if ( ! inited_ ) {
 
         initialization();

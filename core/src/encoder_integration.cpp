@@ -104,7 +104,7 @@ void EncoderIntegration::setTrr(Sophus::SE2 pose)
     Trr_ = pose;
     x_ = pose.traslation(0);
     y_ = pose.traslation(1);
-    th_ = 0; // TODO:(Voung) pose.rotationMatrix();
+    th_ = pose.rotationMatrix(); // TODO:(Voung) pose.rotationMatrix();
 }
 void EncoderIntegration::resetSe2()
 {

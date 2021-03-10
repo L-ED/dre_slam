@@ -36,7 +36,7 @@ public:
 	
 	void addRGBDImage(const cv::Mat& rgb, const cv::Mat& depth, const double& timestamp);
 	void addEncoder(const double& enc_l, const double& enc_r, const double& timestamp);
-	void addSE2Pose(const double& x const double& y, const double& yaw, const double& timestamp);	
+	void addSE2Pose(const double& x, const double& y, const double& yaw, const double& timestamp);	
 	// Save Results
 	void saveMapPoints(const std::string& dir);
 	void saveKeyFrames(const std::string& dir);

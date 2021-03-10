@@ -64,6 +64,7 @@ private:
 	
 
 	bool inited_;
+	bool readyOdometry = true;
 
 	DynamicPixelCulling* dynamic_pixel_culling_;
 	RosPuber* ros_puber_;

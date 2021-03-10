@@ -30,7 +30,7 @@ cam_fps_: 20     # Camera FPs.
 # Robot intrinsic and extrinsic
 #--------------------------------------------------------------------------------------------
 #### Intrinsic
-encoder_topic_: /rbot/encoder
+encoder_topic_: /odom
 
 odom_kl_: 4.0652e-5   # left wheel factor
 odom_kr_: 4.0668e-5   # right wheel factor

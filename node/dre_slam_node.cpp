@@ -95,7 +95,7 @@ public:
 			if ( last_enl_ == 0 && last_enr_ == 0 ) {
 				last_x = x;
 				last_y = y;
-				last_th = yaw;
+				last_yaw = yaw;
 				last_enl_ = enl;
 				last_enr_ = enr;
 				return;
@@ -123,6 +123,7 @@ public:
 		
 		double x = en_ptr->pose.pose.position.x;
 		double y = en_ptr->pose.pose.position.y;
+		doulbe z = en_ptr->pose.pose.position.z;
 		tf::Quaternion q(
 			en_ptr->pose.pose.orientation.x,
 			en_ptr->pose.pose.orientation.y,
@@ -132,8 +133,24 @@ public:
 
 		double yaw = tf::getYaw(q);
 		double  ts= en_ptr->header.stamp.toSec();
+
+		//double delta_x = x - last_x;
+		//double delta_y = y - last_y;
+		double delta_z = z - last_z;
+		double delta_yaw = yaw - last_yaw;
+
+		if (delta_z > 0.1) {
+			std::cout << "\nJUMP\n";
+			return;
+		}
+
+		last_x = x;
+		last_y = y;
+		last_z = z;
+		last_yaw = yaw;
+	
 		// Add encoder measurements.
-		slam_->addSE2Pose ( x,y,yaw, ts );
+		slam_->addSE2Pose (x, y, yaw, ts);
 		
 	}// grabSE2Pose
 private:
@@ -142,7 +159,8 @@ private:
 	double last_enr_ = 0;
 	double last_x = 0;
 	double last_y = 0;
-	double last_th = 0;
+	double last_z = 0;
+	double last_yaw = 0;
 };
 
 int main ( int argc, char** argv )

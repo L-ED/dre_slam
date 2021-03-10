@@ -56,6 +56,7 @@ public:
 
 		double x = en_ptr->pose.pose.position.x;
 		double y = en_ptr->pose.pose.position.y;
+		double z = en_ptr->pose.pose.position.z;
 		
 		tf::Quaternion q(
 			en_ptr->pose.pose.orientation.x,
@@ -69,9 +70,10 @@ public:
 		
 		double delta_x = x - last_x;
 		double delta_y = y - last_y;
-		double delta_theta = yaw - last_th;
+		double delta_z = z - last_z;
+		double delta_yaw = yaw - last_yaw;
 
-		double cos_tmp_yaw = cos(last_th + 0.5 * delta_theta);
+		/*double cos_tmp_yaw = cos(last_th + 0.5 * delta_theta);
 		double sin_tmp_yaw = sin(last_th + 0.5 * delta_theta);
 		
 		double delta_s = delta_x / cos_tmp_yaw;							//TODO: Need to review
@@ -82,7 +84,7 @@ public:
 		double delta_enr = delta_sr / kr;
 		
 		double enl = last_enl_ + delta_enl;
-		double enr = last_enr_ + delta_enr;
+		double enr = last_enr_ + delta_enr;*/
 
 		// Calculate left and right encoder.
 		// double enl = 0.5* ( enl1 + enl2 );
@@ -92,24 +94,25 @@ public:
 		// Check bad data.
 		{
 			
-			if ( last_enl_ == 0 && last_enr_ == 0 ) {
+			if ( last_x == 0 && last_y == 0 && last_yaw == 0) {
 				last_x = x;
 				last_y = y;
-				last_th = yaw;
-				last_enl_ = enl;
-				last_enr_ = enr;
+				last_yaw = yaw;
+				last_z = z;
+				//last_enl_ = enl;
+				//last_enr_ = enr;
 				return;
 			}
 			
 			const double delta_th = 4000;
 			
-			if ( delta_enl > delta_th || delta_enr > delta_th ) {
+			if (delta_yaw > 0.1) {
 				std::cout << "\nJUMP\n";
 				return;
 			}
 			
-			last_enl_ = enl;
-			last_enr_ = enr;
+			//last_enl_ = enl;
+			//last_enr_ = enr;
 		}
 		
 		// Add encoder measurements.
@@ -122,7 +125,8 @@ private:
 	double last_enr_ = 0;
 	double last_x = 0;
 	double last_y = 0;
-	double last_th = 0;
+	double last_z = 0;
+	double last_yaw = 0;
 };
 
 int main ( int argc, char** argv )
